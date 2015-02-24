@@ -1,0 +1,7 @@
+{
+    "name": "alfallouji/php_code_compare",
+    "description": "Command line script that will compare two versions of a source code (look for new classes, methods, etc.).",
+		"require": {
+        "php": ">=4"
+    }
+}
