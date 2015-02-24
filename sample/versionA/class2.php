@@ -2,5 +2,5 @@
 
 class class2 
 {
-    public function methodA(StdClass $clas) {}
+    public function methodA(StdClass $class) {}
 }
