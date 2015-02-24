@@ -1,4 +1,4 @@
-== phpApiCompare ==
+## phpApiCompare 
 
 Copyright (c) 2009, Bashar Al-Fallouji <bashar@alfallouji.com>
 All rights reserved.
