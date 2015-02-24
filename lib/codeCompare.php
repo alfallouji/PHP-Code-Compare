@@ -41,8 +41,22 @@
  * @since     File available since Release 1.0.0
  */
 
+define('TMP_PATH', sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'apiCompare');
 
-define('TMP_PATH', '/tmp/apiCompare');
+if (!defined('T_NAMESPACE'))
+{
+    /**
+     * This is just for backword compatibilty with previous versions
+     * Token -1 will never exists but we just want to avoid having undefined
+     * constant
+     */
+    define('T_NAMESPACE', -1);
+    define('T_NS_SEPARATOR', -1);
+}
+if (!defined('T_TRAIT'))
+{
+    define('T_TRAIT', -1);
+}
 
 /**
  * Code comparator class
@@ -82,6 +96,7 @@ class codeCompare
                 $results = array_merge($results, $classNames);
             }
         }    
+
         return $results;
     }       
 
@@ -96,13 +111,38 @@ class codeCompare
         $classes = array();
         $tokens = token_get_all(file_get_contents($file));
         $nbtokens = count($tokens);
-
-        $classCpt = 0;
+        $currentClass = null;
+        $namespace = null;
 
         for($i = 0 ; $i < $nbtokens ; $i++)
         {
             switch($tokens[$i][0])
             {
+                case T_NAMESPACE:
+                    $i+=2;
+                    while ($tokens[$i][0] === T_STRING || $tokens[$i][0] === T_NS_SEPARATOR)
+                    {
+                        $namespace .= $tokens[$i++][1];
+                    }
+                break;
+
+                case T_INTERFACE:
+                case T_CLASS:
+                case T_TRAIT:
+                    $i+=2;
+                    if ($namespace)
+                    {
+                        $currentClass = strtolower($namespace . '\\' . $tokens[$i][1]);
+                    }
+                    else
+                    {
+                        $currentClass = strtolower($tokens[$i][1]);
+                    }
+
+                    $classes[$currentClass]['fileName'] = $file;
+                    $classes[$currentClass]['methods'] = array();
+                break;
+
                 // Retrieve methods
                 case T_FUNCTION:
                     $i+=2;
@@ -118,18 +158,7 @@ class codeCompare
 
                         ++$i;
                     }
-                    break;
-
-                // Retrieve classes and interfaces
-                case T_INTERFACE:
-                case T_CLASS:
-                    $i+=2;
-                    ++$classCpt;
-                    $classes[$tokens[$i][1]]['fileName'] = $file;
-                    $classes[$tokens[$i][1]]['methods'] = array();
-
-                    $currentClass = $tokens[$i][1];
-                    break;
+                break;
             }
         }
 

@@ -78,7 +78,6 @@ EOF;
 
     public static function displayHeader()
     {
-        echo `clear`;
         echo PHP_EOL . self::COLOR_BOLD . 'Code Comparator ver1.0 by Bashar Al-Fallouji' . PHP_EOL . self::COLOR_NORMAL;
     }
 }

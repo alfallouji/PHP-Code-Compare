@@ -51,7 +51,7 @@ class appController
      */
     public static function parseParameters(array $array = array())
     {
-        $result = array();
+        $results = array();
 
         // Check what options were called
         $cpt = 3;
@@ -126,7 +126,7 @@ class appController
     {
         $changed = array();
 
-        echo 'Comparing methods between V1:"' . $path1 . '" and V2:"' . $path2 . '"' . PHP_EOL;
+        echo PHP_EOL . 'Comparing methods between V1:"' . $path1 . '" and V2:"' . $path2 . '"' . PHP_EOL;
         foreach($results[0] as $className => $classInfo)
         {
             $msg = true;
