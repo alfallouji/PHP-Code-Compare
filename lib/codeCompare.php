@@ -40,9 +40,6 @@
  * @license   http://www.opensource.org/licenses/bsd-license.php  BSD License
  * @since     File available since Release 1.0.0
  */
-
-define('TMP_PATH', sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'apiCompare');
-
 if (!defined('T_NAMESPACE'))
 {
     /**
@@ -53,6 +50,7 @@ if (!defined('T_NAMESPACE'))
     define('T_NAMESPACE', -1);
     define('T_NS_SEPARATOR', -1);
 }
+
 if (!defined('T_TRAIT'))
 {
     define('T_TRAIT', -1);
